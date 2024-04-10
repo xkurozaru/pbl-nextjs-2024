@@ -1,4 +1,4 @@
-import { Flex, Heading } from "@chakra-ui/react";
+import { Center, Container, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 
 export default function Home() {
@@ -8,9 +8,11 @@ export default function Home() {
         <title>Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Flex align="center" justify="center">
-        <Heading>Hello Next App!</Heading>
-      </Flex>
+      <Container h="100vh" alignContent="center">
+        <Center>
+          <Heading> Hello Next App!</Heading>
+        </Center>
+      </Container>
     </>
   );
 }
