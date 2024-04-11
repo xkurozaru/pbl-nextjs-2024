@@ -9,9 +9,13 @@ export function HelloMessage({ session }: HelloMessageProps) {
   return (
     <>
       {session ? (
-        <Heading>Hello {session.user.user_metadata["name"]} !!</Heading>
+        <Heading fontSize="6xl" fontWeight="extrabold">
+          Hello {session.user.user_metadata["name"]} !!
+        </Heading>
       ) : (
-        <Heading>Hello Next App !!</Heading>
+        <Heading fontSize="6xl" fontWeight="extrabold">
+          Hello Next App !!
+        </Heading>
       )}
     </>
   );

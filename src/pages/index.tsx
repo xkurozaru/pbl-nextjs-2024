@@ -2,6 +2,7 @@ import { Center, Container, VStack } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { DisplayModeButton } from "../components/DisplayModeButton";
 import { HelloMessage } from "../components/HelloMessage";
 import { LoginLogoutButton } from "../components/LoginLogoutButton";
 import supabase from "../libs/supabase";
@@ -25,11 +26,12 @@ export default function Home() {
         <title>Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Container h="100vh" alignContent="center">
+      <Container h="100vh" maxW="fit-content" alignContent="center">
         <Center>
           <VStack>
             <HelloMessage session={session} />
             <LoginLogoutButton session={session} setSession={setSession} />
+            <DisplayModeButton />
           </VStack>
         </Center>
       </Container>
