@@ -1,44 +1,46 @@
-import { Button } from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { sessionState } from "../libs/states";
 import supabase from "../libs/supabase";
+import { AuthModal } from "./AuthModal";
 
-export interface LoginLogoutButtonProps {
-  session: Session | null;
-  setSession: (session: Session | null) => void;
-}
-
-export function LoginLogoutButton({
-  session,
-  setSession,
-}: LoginLogoutButtonProps) {
+export function LoginLogoutButton() {
+  const [session, setSession] = useRecoilState<Session | null>(sessionState);
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (session) {
     return (
-      <Button
-        w="100%"
-        colorScheme="red"
-        onClick={() => {
-          supabase.auth.signOut();
-          setSession(null);
-          router.push("/");
-        }}
-      >
-        LogOut
-      </Button>
+      <>
+        <Button
+          w="100%"
+          colorScheme="red"
+          onClick={() => {
+            supabase.auth.signOut();
+            setSession(null);
+            router.push("/");
+          }}
+        >
+          Log Out
+        </Button>
+      </>
     );
   } else {
     return (
-      <Button
-        w="100%"
-        colorScheme="blue"
-        onClick={() => {
-          router.push("/auth");
-        }}
-      >
-        LogIn
-      </Button>
+      <>
+        <Button
+          w="100%"
+          colorScheme="blue"
+          onClick={() => {
+            onOpen();
+          }}
+        >
+          Log In
+        </Button>
+        <AuthModal isOpen={isOpen} onClose={onClose} />
+      </>
     );
   }
 }
