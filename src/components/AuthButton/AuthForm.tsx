@@ -15,9 +15,9 @@ import { Session } from "@supabase/supabase-js";
 import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useRecoilState } from "recoil";
-import { sessionState } from "../libs/states";
+import { sessionState } from "../../libs/states";
 
-import supabase from "../libs/supabase";
+import supabase from "../../libs/supabase";
 
 export interface AuthFormProps {
   isLogin: boolean;
