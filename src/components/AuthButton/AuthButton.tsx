@@ -2,11 +2,11 @@ import { Button, useDisclosure } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { sessionState } from "../libs/states";
-import supabase from "../libs/supabase";
+import { sessionState } from "../../libs/states";
+import supabase from "../../libs/supabase";
 import { AuthModal } from "./AuthModal";
 
-export function LoginLogoutButton() {
+export function AuthButton() {
   const [session, setSession] = useRecoilState<Session | null>(sessionState);
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
