@@ -1,7 +1,7 @@
 import { Heading } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import { useRecoilState } from "recoil";
-import { sessionState } from "../libs/states";
+import { sessionState } from "../../libs/states";
 
 export function HelloMessage() {
   const [session, setSession] = useRecoilState<Session | null>(sessionState);
