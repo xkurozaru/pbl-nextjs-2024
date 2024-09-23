@@ -36,11 +36,14 @@ export default function UsersTable() {
     } catch (err) {
       console.error(err);
     }
-    setIsLoading(false);
   }
 
   useEffect(() => {
-    handleGet();
+    const init = async () => {
+      await handleGet();
+      setIsLoading(false);
+    };
+    init();
   }, []);
 
   const {
