@@ -21,8 +21,8 @@ import DeleteModal from "./DeleteModal";
 import PostModal from "./PostModal";
 
 export default function UsersTable() {
-  const [users, setUsers] = useState([] as User[]);
-  const [selectedUser, setSelectedUser] = useState({} as User);
+  const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User>();
   const [isLoading, setIsLoading] = useState(true);
 
   async function handleGet() {
@@ -70,13 +70,15 @@ export default function UsersTable() {
         users={users}
         setUsers={setUsers}
       />
-      <DeleteModal
-        user={selectedUser}
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-        users={users}
-        setUsers={setUsers}
-      />
+      {selectedUser && (
+        <DeleteModal
+          user={selectedUser}
+          isOpen={isDeleteOpen}
+          onClose={onDeleteClose}
+          users={users}
+          setUsers={setUsers}
+        />
+      )}
       <VStack>
         <TableContainer>
           <Table variant="simple">
