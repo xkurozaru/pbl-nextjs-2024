@@ -100,7 +100,7 @@ export default function UsersTable() {
                   <Td>{user.team}</Td>
                   <Td>
                     <IconButton
-                      onClick={onDeleteOpenWithUser.bind(null, user)}
+                      onClick={() => onDeleteOpenWithUser(user)}
                       variant="outline"
                       aria-label="Delete"
                       icon={<DeleteIcon />}
