@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { sessionState } from "../../libs/states";
 
 export function HelloMessage() {
-  const [session, setSession] = useRecoilState<Session | null>(sessionState);
+  const [session] = useRecoilState<Session | null>(sessionState);
 
   return (
     <>

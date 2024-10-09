@@ -9,14 +9,11 @@ import {
   IconButton,
   Input,
   Spacer,
+  useToast,
 } from "@chakra-ui/react";
-import { useToast } from "@chakra-ui/toast";
-import { Session } from "@supabase/supabase-js";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { useRecoilState } from "recoil";
-import { sessionState } from "../../libs/states";
-
 import supabase from "../../libs/supabase";
 
 export interface AuthFormProps {
@@ -25,7 +22,7 @@ export interface AuthFormProps {
 }
 
 export function AuthForm({ isLogin, onClose }: AuthFormProps) {
-  const [session, setSession] = useRecoilState<Session | null>(sessionState);
+  const router = useRouter();
   const toast = useToast();
 
   const [email, setEmail] = useState("");
@@ -54,8 +51,8 @@ export function AuthForm({ isLogin, onClose }: AuthFormProps) {
       return;
     }
 
-    setSession(data?.session);
     onClose();
+    router.push("/auth");
   }
 
   async function handleSignUp() {
@@ -82,8 +79,8 @@ export function AuthForm({ isLogin, onClose }: AuthFormProps) {
       return;
     }
 
-    setSession(data?.session);
     onClose();
+    router.push("/auth");
   }
 
   return isLogin ? (

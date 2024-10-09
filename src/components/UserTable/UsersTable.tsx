@@ -12,15 +12,13 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import { User } from "../../types/user";
-import DeleteModal from "./DeleteModal";
-import PostModal from "./PostModal";
+import { DeleteModal } from "./DeleteModal";
+import { PostModal } from "./PostModal";
 
-export default function UsersTable() {
+export function UsersTable() {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User>();
   const [isLoading, setIsLoading] = useState(true);
@@ -100,7 +98,7 @@ export default function UsersTable() {
                   <Td>{user.team}</Td>
                   <Td>
                     <IconButton
-                      onClick={onDeleteOpenWithUser.bind(null, user)}
+                      onClick={() => onDeleteOpenWithUser(user)}
                       variant="outline"
                       aria-label="Delete"
                       icon={<DeleteIcon />}

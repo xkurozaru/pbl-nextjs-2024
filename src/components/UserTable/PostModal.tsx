@@ -18,10 +18,8 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
-
 import axios from "axios";
 import { useState } from "react";
-
 import { User } from "../../types/user";
 
 interface Props {
@@ -31,7 +29,7 @@ interface Props {
   setUsers: (users: User[]) => void;
 }
 
-export default function PostModal({ isOpen, onClose, users, setUsers }: Props) {
+export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
   const [name, setName] = useState("");
   const [grade, setGrade] = useState(3);
   const [team, setTeam] = useState("Not Assigned");
