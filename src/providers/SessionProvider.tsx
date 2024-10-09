@@ -1,10 +1,11 @@
-import supabase from "@/libs/supabase";
 import { Session } from "@supabase/supabase-js";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+
 import { sessionState } from "../libs/states";
+import supabase from "../libs/supabase";
 
 type SessionProviderProps = {
   children: React.ReactNode;
