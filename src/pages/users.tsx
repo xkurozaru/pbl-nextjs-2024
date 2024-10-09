@@ -1,7 +1,7 @@
 import { Center } from "@chakra-ui/react";
 import Head from "next/head";
 
-import { UsersTable } from "../components/UserTable/UsersTable";
+import { UsersTable } from "@/components/UserTable/UsersTable";
 
 export default function Home() {
   return (
