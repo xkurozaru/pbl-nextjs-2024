@@ -1,8 +1,8 @@
 import { Center, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 
-import { LogInButton } from "@/components/Buttons/LogInButton";
 import { DisplayModeButton } from "../components/Buttons/DisplayModeButton";
+import { LogInButton } from "../components/Buttons/LogInButton";
 import { HelloNextMessage } from "../components/Messages/HelloNextMessage";
 
 export default function Home() {

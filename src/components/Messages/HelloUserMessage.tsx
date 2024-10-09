@@ -1,6 +1,7 @@
 import { Avatar, Heading } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import { useRecoilState } from "recoil";
+
 import { sessionState } from "../../libs/states";
 
 export function HelloUserMessage() {
