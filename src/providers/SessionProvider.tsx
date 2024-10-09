@@ -6,18 +6,18 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { sessionState } from "../libs/states";
 
-type UserProviderProps = {
+type SessionProviderProps = {
   children: React.ReactNode;
 };
 
-export const UserProvider = ({ children }: UserProviderProps) => {
+export const SessionProvider = ({ children }: SessionProviderProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isReady, setIsReady] = useState(false);
   const [, setSession] = useRecoilState<Session | null>(sessionState);
 
   useEffect(() => {
-    const userUpdate = async () => {
+    const sessionUpdate = async () => {
       const {
         data: { session },
         error,
@@ -44,7 +44,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       return;
     };
 
-    userUpdate();
+    sessionUpdate();
   }, [router, pathname, setIsReady, setSession]);
 
   if (!isReady) {
