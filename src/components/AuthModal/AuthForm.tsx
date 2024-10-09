@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 
-import supabase from "../../libs/supabase";
+import supabase from "@/libs/supabase";
 
 export interface AuthFormProps {
   isLogin: boolean;

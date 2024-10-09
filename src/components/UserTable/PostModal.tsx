@@ -21,7 +21,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 
-import { User } from "../../types/user";
+import { User } from "@/types/user";
 
 interface Props {
   isOpen: boolean;
