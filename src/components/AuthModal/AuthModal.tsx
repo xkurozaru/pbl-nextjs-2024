@@ -9,6 +9,7 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { useState } from "react";
+
 import { AuthForm } from "./AuthForm";
 
 export interface AuthModalProps {
