@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+
 import { User } from "../../types/user";
 import { DeleteModal } from "./DeleteModal";
 import { PostModal } from "./PostModal";

@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+
 import supabase from "../../libs/supabase";
 
 export interface AuthFormProps {
@@ -48,6 +49,7 @@ export function AuthForm({ isLogin, onClose }: AuthFormProps) {
         duration: 3000,
         isClosable: true,
       });
+      onClose();
       return;
     }
 
@@ -76,6 +78,7 @@ export function AuthForm({ isLogin, onClose }: AuthFormProps) {
         duration: 3000,
         isClosable: true,
       });
+      onClose();
       return;
     }
 
