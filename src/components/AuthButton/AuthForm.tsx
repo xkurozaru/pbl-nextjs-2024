@@ -9,8 +9,8 @@ import {
   IconButton,
   Input,
   Spacer,
+  useToast,
 } from "@chakra-ui/react";
-import { useToast } from "@chakra-ui/toast";
 import { Session } from "@supabase/supabase-js";
 import { useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
