@@ -2,9 +2,9 @@ import { Center, HStack, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { UserTableButton } from "@/components/Buttons/UserTableButton";
-import { AuthButton } from "../components/AuthButton/AuthButton";
 import { DisplayModeButton } from "../components/Buttons/DisplayModeButton";
-import { HelloMessage } from "../components/Message/HelloMessage";
+import { LogOutButton } from "../components/Buttons/LogOutButton";
+import { HelloUserMessage } from "../components/Messages/HelloUserMessage";
 
 export default function Home() {
   return (
@@ -15,8 +15,8 @@ export default function Home() {
       </Head>
       <Center h="100vh">
         <VStack>
-          <HelloMessage />
-          <AuthButton />
+          <HelloUserMessage />
+          <LogOutButton />
           <HStack>
             <DisplayModeButton />
             <UserTableButton />

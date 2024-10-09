@@ -48,6 +48,7 @@ export function AuthForm({ isLogin, onClose }: AuthFormProps) {
         duration: 3000,
         isClosable: true,
       });
+      onClose();
       return;
     }
 
@@ -76,6 +77,7 @@ export function AuthForm({ isLogin, onClose }: AuthFormProps) {
         duration: 3000,
         isClosable: true,
       });
+      onClose();
       return;
     }
 
