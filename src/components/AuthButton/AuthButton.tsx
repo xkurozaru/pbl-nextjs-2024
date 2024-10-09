@@ -7,7 +7,7 @@ import supabase from "../../libs/supabase";
 import { AuthModal } from "./AuthModal";
 
 export function AuthButton() {
-  const [session, setSession] = useRecoilState<Session | null>(sessionState);
+  const [session] = useRecoilState<Session | null>(sessionState);
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -19,7 +19,6 @@ export function AuthButton() {
           colorScheme="red"
           onClick={() => {
             supabase.auth.signOut();
-            setSession(null);
             router.push("/");
           }}
         >

@@ -12,7 +12,6 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-
 import axios from "axios";
 import { useState } from "react";
 
@@ -24,13 +23,7 @@ interface Props {
   setUsers: (users: User[]) => void;
 }
 
-export default function DeleteModal({
-  user,
-  isOpen,
-  onClose,
-  users,
-  setUsers,
-}: Props) {
+export function DeleteModal({ user, isOpen, onClose, users, setUsers }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
