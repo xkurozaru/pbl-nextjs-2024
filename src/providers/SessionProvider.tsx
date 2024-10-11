@@ -1,10 +1,7 @@
-import { Session } from "@supabase/supabase-js";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
 
-import { sessionState } from "@/libs/states";
 import supabase from "@/libs/supabase";
 
 type SessionProviderProps = {
@@ -15,7 +12,6 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isReady, setIsReady] = useState(false);
-  const [, setSession] = useRecoilState<Session | null>(sessionState);
 
   useEffect(() => {
     const sessionUpdate = async () => {
@@ -28,7 +24,6 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
         setIsReady(false);
         return;
       }
-      setSession(session);
       if (session) {
         if (pathname === "/") {
           router.replace("/auth");
@@ -46,7 +41,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     };
 
     sessionUpdate();
-  }, [router, pathname, setIsReady, setSession]);
+  }, [router, pathname, setIsReady]);
 
   if (!isReady) {
     return <></>;

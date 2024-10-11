@@ -1,11 +1,26 @@
 import { Avatar, Heading } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 
-import { sessionState } from "@/libs/states";
+import supabase from "@/libs/supabase";
 
 export function HelloUserMessage() {
-  const [session] = useRecoilState<Session | null>(sessionState);
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    const sessionUpdate = async () => {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+      if (error) {
+        console.error(error);
+      }
+      setSession(session);
+    };
+
+    sessionUpdate();
+  }, []);
 
   return (
     <>
