@@ -35,7 +35,6 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
   const [grade, setGrade] = useState(3);
   const [team, setTeam] = useState("Not Assigned");
 
-  const isError = name == "";
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
@@ -76,7 +75,7 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
           <ModalHeader>Add User</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl isInvalid={isError}>
+            <FormControl isInvalid={name == ""}>
               <FormLabel>Name</FormLabel>
               <Input
                 value={name}
@@ -115,7 +114,7 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
               colorScheme="blue"
               mr={3}
               onClick={handlePost}
-              isDisabled={isError}
+              isDisabled={name == ""}
               isLoading={isLoading}
             >
               Save
