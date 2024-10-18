@@ -15,25 +15,28 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Select,
   useToast,
 } from "@chakra-ui/react";
+import { Session } from "@supabase/supabase-js";
 import axios from "axios";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
 
-import { User } from "@/types/user";
+import { sessionState } from "@/libs/states";
+import { Item } from "@/types/item";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  users: User[];
-  setUsers: (users: User[]) => void;
+  items: Item[];
+  setItems: (items: Item[]) => void;
 }
 
-export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
+export function PostModal({ isOpen, onClose, items, setItems }: Props) {
+  const [session] = useRecoilState<Session | null>(sessionState);
+
   const [name, setName] = useState("");
-  const [grade, setGrade] = useState(3);
-  const [team, setTeam] = useState("Not Assigned");
+  const [price, setPrice] = useState(0);
 
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
@@ -41,15 +44,21 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
   async function handlePost() {
     setIsLoading(true);
     try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/users";
-      const data = { name: name, grade: grade, team: team };
-      const res = await axios.post(url, data);
+      const url = process.env.NEXT_PUBLIC_API_URL + "/items";
+      const config = {
+        headers: {
+          // FIXME: Need to use 〇〇〇
+          Authorization: `Bearer ${session?.user.id}`,
+        },
+      };
+      const data = { name: name, price: price };
+      const res = await axios.post(url, data, config);
       if (res.status !== 200) {
-        throw new Error("Failed to post user");
+        throw new Error("Failed to post item");
       }
-      setUsers([...users, res.data as User]);
+      setItems([...items, res.data as Item]);
       toast({
-        title: "User added !",
+        title: "Item added !",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -57,7 +66,7 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
     } catch (err) {
       console.error(err);
       toast({
-        title: "Failed to add user",
+        title: "Failed to add item",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -72,7 +81,7 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add User</ModalHeader>
+          <ModalHeader>Add Item</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl isInvalid={name == ""}>
@@ -80,17 +89,17 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="user"
+                placeholder="item"
               />
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Grade</FormLabel>
+            <FormControl mt={4} isInvalid={price == 0}>
+              <FormLabel>Price</FormLabel>
               <NumberInput
-                value={grade}
-                onChange={(_, value) => setGrade(value)}
-                step={1}
-                min={1}
-                max={9}
+                value={price}
+                onChange={(_, value) => setPrice(value)}
+                step={10}
+                min={0}
+                max={1000000000}
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -99,22 +108,13 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
                 </NumberInputStepper>
               </NumberInput>
             </FormControl>
-            <FormControl>
-              <FormLabel mt={4}>Team</FormLabel>
-              <Select value={team} onChange={(e) => setTeam(e.target.value)}>
-                <option value="Not Assigned">Not Assigned</option>
-                <option value="Plant">Plant</option>
-                <option value="Medical">Medical</option>
-                <option value="NLP">NLP</option>
-              </Select>
-            </FormControl>
           </ModalBody>
           <ModalFooter>
             <Button
               colorScheme="blue"
               mr={3}
               onClick={handlePost}
-              isDisabled={name == ""}
+              isDisabled={name == "" || price == 0}
               isLoading={isLoading}
             >
               Save
