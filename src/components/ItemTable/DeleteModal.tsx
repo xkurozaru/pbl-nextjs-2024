@@ -40,7 +40,7 @@ export function DeleteModal({ item, isOpen, onClose, items, setItems }: Props) {
       const config = {
         headers: {
           // FIXME: Need to use 〇〇〇
-          Authorization: `Bearer ${session?.user.id}`,
+          Authorization: `Bearer ${session?.access_token}`,
         },
       };
       const res = await axios.delete(url, config);
