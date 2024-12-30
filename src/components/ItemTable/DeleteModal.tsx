@@ -39,7 +39,6 @@ export function DeleteModal({ item, isOpen, onClose, items, setItems }: Props) {
       const url = process.env.NEXT_PUBLIC_API_URL + "/items/" + item.id;
       const config = {
         headers: {
-          // FIXME: Need to use 〇〇〇
           Authorization: `Bearer ${session?.access_token}`,
         },
       };

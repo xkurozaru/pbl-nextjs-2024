@@ -28,7 +28,6 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
         setIsReady(false);
         return;
       }
-      console.log("session", session);
       setSession(session);
       if (session) {
         if (pathname === "/") {
