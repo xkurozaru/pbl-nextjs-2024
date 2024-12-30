@@ -34,8 +34,7 @@ export function ItemsTable() {
       const url = process.env.NEXT_PUBLIC_API_URL + "/items";
       const config = {
         headers: {
-          // FIXME: Need to use 〇〇〇
-          Authorization: `Bearer ${session?.user.id}`,
+          Authorization: `Bearer ${session?.access_token}`,
         },
       };
       const res = await axios.get(url, config);
