@@ -13,10 +13,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
+import ItemApi from "@/apis/items";
 import { sessionState } from "@/libs/states";
 import { Item } from "@/types/item";
 import { DeleteModal } from "./DeleteModal";
@@ -25,35 +25,24 @@ import { PostModal } from "./PostModal";
 export function ItemsTable() {
   const [session] = useRecoilState<Session | null>(sessionState);
 
-  const [items, setItems] = useState<Item[]>([]);
-  const [selectedItem, setSelectedItem] = useState<Item>();
   const [isLoading, setIsLoading] = useState(true);
 
-  async function handleGet() {
-    try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/items";
-      const config = {
-        headers: {
-          Authorization: `Bearer ${session?.access_token}`,
-        },
-      };
-      const res = await axios.get(url, config);
-      if (res.status !== 200) {
-        throw new Error("Failed to fetch items");
-      }
-      setItems(res.data as Item[]);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  const [items, setItems] = useState<Item[]>([]);
+  const [selectedItem, setSelectedItem] = useState<Item>();
 
   useEffect(() => {
     const init = async () => {
-      await handleGet();
-      setIsLoading(false);
+      try {
+        const items = await ItemApi.fetchItems(session?.access_token);
+        setItems(items);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
     };
     init();
-  }, []);
+  }, [session]);
 
   const {
     isOpen: isPostOpen,
@@ -81,10 +70,9 @@ export function ItemsTable() {
       />
       {selectedItem && (
         <DeleteModal
-          item={selectedItem}
           isOpen={isDeleteOpen}
           onClose={onDeleteClose}
-          items={items}
+          selectItem={selectedItem}
           setItems={setItems}
         />
       )}

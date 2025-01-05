@@ -18,10 +18,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
-import axios from "axios";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 
+import ItemApi from "@/apis/items";
 import { sessionState } from "@/libs/states";
 import { Item } from "@/types/item";
 
@@ -35,27 +35,17 @@ interface Props {
 export function PostModal({ isOpen, onClose, items, setItems }: Props) {
   const [session] = useRecoilState<Session | null>(sessionState);
 
+  const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
 
   async function handlePost() {
     setIsLoading(true);
     try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/items";
-      const config = {
-        headers: {
-          Authorization: `Bearer ${session?.access_token}`,
-        },
-      };
-      const data = { name: name, price: price };
-      const res = await axios.post(url, data, config);
-      if (res.status !== 200) {
-        throw new Error("Failed to post item");
-      }
-      setItems([...items, res.data as Item]);
+      const item = await ItemApi.createItem(session?.access_token, name, price);
+      setItems([...items, item]);
       toast({
         title: "Item added !",
         status: "success",
@@ -70,9 +60,10 @@ export function PostModal({ isOpen, onClose, items, setItems }: Props) {
         duration: 2000,
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false);
+      onClose();
     }
-    setIsLoading(false);
-    onClose();
   }
 
   return (
