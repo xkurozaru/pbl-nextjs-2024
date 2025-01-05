@@ -1,5 +1,6 @@
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { AddIcon, ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
+  HStack,
   IconButton,
   Spinner,
   Table,
@@ -16,12 +17,16 @@ import { useEffect, useState } from "react";
 
 import UserApi from "@/apis/users";
 import { User } from "@/types/user";
+import { useRouter } from "next/router";
 import { DeleteModal } from "./DeleteModal";
 import { PostModal } from "./PostModal";
 
 export function UsersTable() {
+  const router = useRouter();
+
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User>();
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -103,13 +108,23 @@ export function UsersTable() {
           </Table>
         </TableContainer>
         <Spinner size="xl" hidden={!isLoading} />
-        <IconButton
-          onClick={onPostOpen}
-          variant="outline"
-          aria-label="Add"
-          icon={<AddIcon />}
-          hidden={isLoading}
-        />
+        <HStack>
+          <IconButton
+            onClick={() => router.push("/auth")}
+            fontSize={"2xl"}
+            variant={"outline"}
+            aria-label={"Back"}
+            icon={<ArrowBackIcon />}
+            hidden={isLoading}
+          />
+          <IconButton
+            onClick={onPostOpen}
+            variant="outline"
+            aria-label="Add"
+            icon={<AddIcon />}
+            hidden={isLoading}
+          />
+        </HStack>
       </VStack>
     </>
   );

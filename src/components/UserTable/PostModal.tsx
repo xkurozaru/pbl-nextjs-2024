@@ -32,11 +32,12 @@ interface Props {
 
 export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
   const toast = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
   const [name, setName] = useState("");
   const [grade, setGrade] = useState(3);
   const [team, setTeam] = useState("Not Assigned");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handlePost() {
     setIsLoading(true);
