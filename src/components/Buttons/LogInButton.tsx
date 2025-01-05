@@ -1,6 +1,6 @@
 import { Button, useDisclosure } from "@chakra-ui/react";
 
-import { AuthModal } from "../AuthModal/AuthModal";
+import { AuthModal } from "../AuthModal";
 
 export function LogInButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();

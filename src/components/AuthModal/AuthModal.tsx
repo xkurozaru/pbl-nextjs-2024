@@ -1,4 +1,5 @@
 import {
+  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -7,6 +8,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Switch,
+  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -31,13 +33,15 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             <AuthForm isLogin={isLogin} onClose={onClose} />
           </ModalBody>
           <ModalFooter>
-            Sign up ? &nbsp;
-            <Switch
-              colorScheme="teal"
-              size="lg"
-              onChange={() => setIsLogin(!isLogin)}
-              defaultChecked={!isLogin}
-            />
+            <HStack>
+              <Text>Sign up ?</Text>
+              <Switch
+                colorScheme="teal"
+                size="lg"
+                onChange={() => setIsLogin(!isLogin)}
+                defaultChecked={!isLogin}
+              />
+            </HStack>
           </ModalFooter>
         </ModalContent>
       </Modal>
