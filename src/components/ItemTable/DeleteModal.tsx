@@ -12,42 +12,32 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
-import axios from "axios";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 
+import ItemApi from "@/apis/items";
 import { sessionState } from "@/libs/states";
 import { Item } from "@/types/item";
+import { Dispatch, SetStateAction } from "react";
 
 interface Props {
-  item: Item;
   isOpen: boolean;
   onClose: () => void;
-  items: Item[];
-  setItems: (items: Item[]) => void;
+  selectItem: Item;
+  setItems: Dispatch<SetStateAction<Item[]>>;
 }
 
-export function DeleteModal({ item, isOpen, onClose, items, setItems }: Props) {
+export function DeleteModal({ isOpen, onClose, selectItem, setItems }: Props) {
   const [session] = useRecoilState<Session | null>(sessionState);
 
-  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleDelete() {
     setIsLoading(true);
     try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/items/" + item.id;
-      const config = {
-        headers: {
-          Authorization: `Bearer ${session?.access_token}`,
-        },
-      };
-      const res = await axios.delete(url, config);
-      if (res.status !== 200) {
-        throw new Error("Failed to delete item");
-      }
-      const newItems = items.filter((i) => i.id !== item.id);
-      setItems(newItems);
+      await ItemApi.deleteItem(session?.access_token, selectItem.id);
+      setItems((prev) => prev.filter((i) => i.id !== selectItem.id));
       toast({
         title: "Item deleted !",
         status: "success",
@@ -62,9 +52,10 @@ export function DeleteModal({ item, isOpen, onClose, items, setItems }: Props) {
         duration: 2000,
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false);
+      onClose();
     }
-    setIsLoading(false);
-    onClose();
   }
 
   return (
@@ -77,7 +68,7 @@ export function DeleteModal({ item, isOpen, onClose, items, setItems }: Props) {
           <ModalBody>
             <HStack spacing={1}>
               <Text>
-                Are you sure you want to delete <b>{item.name}</b> ?
+                Are you sure you want to delete <b>{selectItem.name}</b> ?
               </Text>
             </HStack>
           </ModalBody>

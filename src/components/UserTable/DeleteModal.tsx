@@ -11,33 +11,27 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
+import UserApi from "@/apis/users";
 import { User } from "@/types/user";
 
 interface Props {
-  user: User;
   isOpen: boolean;
   onClose: () => void;
-  users: User[];
-  setUsers: (users: User[]) => void;
+  selectUser: User;
+  setUsers: Dispatch<SetStateAction<User[]>>;
 }
 
-export function DeleteModal({ user, isOpen, onClose, users, setUsers }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+export function DeleteModal({ isOpen, onClose, selectUser, setUsers }: Props) {
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleDelete() {
     setIsLoading(true);
     try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/users/" + user.id;
-      const res = await axios.delete(url);
-      if (res.status !== 200) {
-        throw new Error("Failed to delete user");
-      }
-      const newUsers = users.filter((u) => u.id !== user.id);
-      setUsers(newUsers);
+      await UserApi.deleteUser(selectUser.id);
+      setUsers((prev) => prev.filter((u) => u.id !== selectUser.id));
       toast({
         title: "User deleted !",
         status: "success",
@@ -67,7 +61,7 @@ export function DeleteModal({ user, isOpen, onClose, users, setUsers }: Props) {
           <ModalBody>
             <HStack spacing={1}>
               <Text>
-                Are you sure you want to delete <b>{user.name}</b> ?
+                Are you sure you want to delete <b>{selectUser.name}</b> ?
               </Text>
             </HStack>
           </ModalBody>

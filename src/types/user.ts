@@ -1,5 +1,5 @@
 interface User {
-  id: number;
+  id: string;
   name: string;
   grade: number;
   team: string;

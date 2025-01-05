@@ -18,9 +18,9 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useState } from "react";
 
+import UserApi from "@/apis/users";
 import { User } from "@/types/user";
 
 interface Props {
@@ -31,23 +31,19 @@ interface Props {
 }
 
 export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
+  const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [name, setName] = useState("");
   const [grade, setGrade] = useState(3);
   const [team, setTeam] = useState("Not Assigned");
 
-  const [isLoading, setIsLoading] = useState(false);
-  const toast = useToast();
-
   async function handlePost() {
     setIsLoading(true);
     try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/users";
-      const data = { name: name, grade: grade, team: team };
-      const res = await axios.post(url, data);
-      if (res.status !== 200) {
-        throw new Error("Failed to post user");
-      }
-      setUsers([...users, res.data as User]);
+      const user = await UserApi.createUser(name, grade, team);
+      setUsers([...users, user]);
+
       toast({
         title: "User added !",
         status: "success",
@@ -62,9 +58,10 @@ export function PostModal({ isOpen, onClose, users, setUsers }: Props) {
         duration: 2000,
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false);
+      onClose();
     }
-    setIsLoading(false);
-    onClose();
   }
 
   return (

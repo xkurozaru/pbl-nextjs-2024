@@ -12,9 +12,9 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
+import UserApi from "@/apis/users";
 import { User } from "@/types/user";
 import { DeleteModal } from "./DeleteModal";
 import { PostModal } from "./PostModal";
@@ -24,23 +24,16 @@ export function UsersTable() {
   const [selectedUser, setSelectedUser] = useState<User>();
   const [isLoading, setIsLoading] = useState(true);
 
-  async function handleGet() {
-    try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/users";
-      const res = await axios.get(url);
-      if (res.status !== 200) {
-        throw new Error("Failed to fetch users");
-      }
-      setUsers(res.data as User[]);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   useEffect(() => {
     const init = async () => {
-      await handleGet();
-      setIsLoading(false);
+      try {
+        const users = await UserApi.fetchUsers();
+        setUsers(users);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
     };
     init();
   }, []);
@@ -71,10 +64,9 @@ export function UsersTable() {
       />
       {selectedUser && (
         <DeleteModal
-          user={selectedUser}
           isOpen={isDeleteOpen}
           onClose={onDeleteClose}
-          users={users}
+          selectUser={selectedUser}
           setUsers={setUsers}
         />
       )}
