@@ -25,6 +25,7 @@ interface Props {
 
 export function DeleteModal({ isOpen, onClose, selectUser, setUsers }: Props) {
   const toast = useToast();
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleDelete() {

@@ -28,9 +28,9 @@ interface Props {
 }
 
 export function DeleteModal({ isOpen, onClose, selectItem, setItems }: Props) {
+  const toast = useToast();
   const [session] = useRecoilState<Session | null>(sessionState);
 
-  const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleDelete() {

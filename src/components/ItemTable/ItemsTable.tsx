@@ -1,5 +1,6 @@
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { AddIcon, ArrowBackIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
+  HStack,
   IconButton,
   Spinner,
   Table,
@@ -13,6 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -23,12 +25,13 @@ import { DeleteModal } from "./DeleteModal";
 import { PostModal } from "./PostModal";
 
 export function ItemsTable() {
+  const router = useRouter();
   const [session] = useRecoilState<Session | null>(sessionState);
-
-  const [isLoading, setIsLoading] = useState(true);
 
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item>();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const init = async () => {
@@ -107,13 +110,23 @@ export function ItemsTable() {
           </Table>
         </TableContainer>
         <Spinner size="xl" hidden={!isLoading} />
-        <IconButton
-          onClick={onPostOpen}
-          variant="outline"
-          aria-label="Add"
-          icon={<AddIcon />}
-          hidden={isLoading}
-        />
+        <HStack>
+          <IconButton
+            onClick={() => router.push("/auth")}
+            fontSize={"2xl"}
+            variant={"outline"}
+            aria-label={"Back"}
+            icon={<ArrowBackIcon />}
+            hidden={isLoading}
+          />
+          <IconButton
+            onClick={onPostOpen}
+            variant="outline"
+            aria-label="Add"
+            icon={<AddIcon />}
+            hidden={isLoading}
+          />
+        </HStack>
       </VStack>
     </>
   );

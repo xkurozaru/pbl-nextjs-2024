@@ -33,13 +33,13 @@ interface Props {
 }
 
 export function PostModal({ isOpen, onClose, items, setItems }: Props) {
-  const [session] = useRecoilState<Session | null>(sessionState);
-
   const toast = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const [session] = useRecoilState<Session | null>(sessionState);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handlePost() {
     setIsLoading(true);
